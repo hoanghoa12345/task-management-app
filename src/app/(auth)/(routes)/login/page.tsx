@@ -11,8 +11,10 @@ const LoginPage = () => {
   return (
     <div>
       <LoginForm />
-      <Link href="/api/auth/signin">Login</Link>
-      <Link href="/register">Register</Link>
+      <div className="text-sm">
+        <span className="mr-1">Create an account</span>
+        <Link className="font-semibold" href="/register">Register</Link>
+      </div>
     </div>
   );
 };

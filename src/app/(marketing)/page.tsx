@@ -35,7 +35,7 @@ const MarketingPage = async () => {
           {session?.user ? (
             <Link
               className={buttonVariants({ variant: "default" })}
-              href="/w/1"
+              href="/w"
             >
               Go to workspace
             </Link>

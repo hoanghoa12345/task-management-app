@@ -9,7 +9,8 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
   return (
     <div>
       <Sidebar />
-      {children}</div>
+      {children}
+    </div>
   )
 }
 

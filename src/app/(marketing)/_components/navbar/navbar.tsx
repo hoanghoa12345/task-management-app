@@ -1,7 +1,9 @@
 "use client";
 
+import UserDropdown from "@/components/menu/user-dropdown";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
+import { User } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -19,7 +21,8 @@ const Navbar = () => {
           <span className="hidden font-bold md:inline-flex">{siteConfig.name}</span>
         </div>
         {session.status === "authenticated" ? (
-          <div><span>{session?.data?.user?.name}</span><Button onClick={() => signOut()}>Logout</Button></div>
+          <div className="flex items-center gap-2">
+            <UserDropdown user={session.data.user as User} /></div>
         ) : (
           <div className="flex items-center gap-2">
             <Button variant="outline" onClick={() => router.push("/login")}>
