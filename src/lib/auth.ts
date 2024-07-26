@@ -38,14 +38,43 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return null;
       },
     }),
+    {
+      id: "hoadev-auth-service",
+      name: "HoaDev Auth Service",
+      type: "oidc",
+      wellKnown: `${process.env.AUTH_PROVIDER_URL}/.well-known/openid-configuration`,
+      issuer: process.env.AUTH_PROVIDER_ISSUER,
+      authorization: `${process.env.AUTH_PROVIDER_URL}/auth`,
+      token: `${process.env.AUTH_PROVIDER_URL}/token`,
+      userinfo: `${process.env.AUTH_PROVIDER_URL}/me`,
+      async profile(profile, _tokens) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+        };
+      },
+      checks: ["pkce", "state"],
+      clientId: process.env.AUTH_CLIENT_ID,
+      clientSecret: process.env.AUTH_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    },
   ],
   pages: {
-    signIn: "/login",
+    signIn: "/sign-in",
     error: "/error",
+    signOut: "/sign-out",
   },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
   trustHost: true,
+  callbacks: {
+    authorized: async ({ auth }) => {
+      // Logged in users are authenticated, otherwise redirect to login page
+      return !!auth;
+    },
+  },
 });

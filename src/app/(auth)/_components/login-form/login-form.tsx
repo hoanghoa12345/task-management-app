@@ -55,7 +55,7 @@ const LoginForm = () => {
         description="Enter your credentials to access your account"
       >
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 flex flex-col">
             <FormField
               control={form.control}
               name="email"
@@ -63,7 +63,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="email" type="email" {...field} />
+                    <Input placeholder="Email" type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -76,13 +76,13 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="password" type="password" {...field} />
+                    <Input placeholder="Password" type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <p className="text-center text-red-500 text-sm">{message}</p>
+            <p className="w-full text-center text-red-500 text-sm">{message}</p>
             <Button type="submit" disabled={isPending}>
               Login
             </Button>

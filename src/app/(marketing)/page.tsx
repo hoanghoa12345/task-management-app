@@ -1,55 +1,49 @@
 import Image from "next/image";
 import React from "react";
-import { buttonVariants } from "@/components/ui/button";
-import Navbar from "./_components/navbar/navbar";
+import { Button, buttonVariants } from "@/components/ui/button";
+// import Navbar from "./_components/navbar/navbar";
+import { Poppins } from "next/font/google";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { auth } from "@/lib/auth";
 import { SessionProvider } from "next-auth/react";
+import { Medal } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const headingFont = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 const MarketingPage = async () => {
-  const session = await auth();
-
   return (
-    <>
-      <SessionProvider>
-        <Navbar />
-      </SessionProvider>
-      <div className="flex items-center justify-center flex-col bg-background">
-        <div className="flex items-center justify-center flex-col mt-20">
-          <div className="my-4">
-            <Image
-              src="/logo.svg"
-              alt="logo"
-              className="w-32 h-32"
-              width={100}
-              height={100}
-            />
-          </div>
-          <p className="font-semibold">No 1 task management</p>
-          <h2 className="text-3xl font-bold">
-            {siteConfig.name} helps team move work forward.
-          </h2>
+    <div className="flex items-center justify-center flex-col">
+      <div
+        className={cn(
+          headingFont.className,
+          "flex items-center justify-center flex-col"
+        )}
+      >
+        <div className="mb-4 flex items-center border shadow-sm p-4 bg-amber-100 text-amber-700 rounded-full uppercase">
+          <Medal className="h-6 w-6 mr-2" />
+          No 1 task management
         </div>
-        <div className="flex justify-center align-center my-4">
-          {session?.user ? (
-            <Link
-              className={buttonVariants({ variant: "default" })}
-              href="/w"
-            >
-              Go to workspace
-            </Link>
-          ) : (
-            <Link
-              className={buttonVariants({ variant: "default" })}
-              href="/login"
-            >
-              Get Started
-            </Link>
-          )}
+        <h1 className="text-3xl md:text-6xl text-center text-neutral-800 mb-6">
+          {siteConfig.name} helps team move
+        </h1>
+        <div className="text-3xl md:text-6xl bg-gradient-to-r from-fuchsia-600 to-pink-600 text-white px-4 p-2 rounded-md pb-4 w-fit">
+          work forward.
         </div>
       </div>
-    </>
+      <div className="text-sm md:text-xl text-neutral-400 mt-4 max-w-xs md:max-w-2xl text-center mx-auto">
+        Collaborate, manage project, and reach new productivity peaks. From high
+        rises to the home offices, the way our team works is unique accomplish
+        it all with {siteConfig.name}
+      </div>
+      <Button className="mt-6" size="lg" asChild>
+        <Link href="/sign-up">Get {siteConfig.name} for free</Link>
+      </Button>
+    </div>
   );
 };
 
