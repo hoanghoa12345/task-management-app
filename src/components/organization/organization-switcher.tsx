@@ -13,33 +13,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { useOrganization } from "@/hooks/useOrganization";
+import { useOrganizationList } from "@/hooks/useOrganizationList";
+import Link from "next/link";
 
 const OrganizationSwitcher = () => {
-  const { data: session } = useSession();
-  // const [selectedOrganization, setSelectedOrganization] = useState(
-  //   session?.user?.organizations[0]
-  // );
+  const { organization } = useOrganization();
+  const { usersMemberships } = useOrganizationList();
+
   const [selectedOrganization, setSelectedOrganization] = useState(
-    {
-      id: '1',
-      name: 'Personal'
-    }
+    organization || null
   );
-
-  // const organizations = session?.user?.organizations || [];
-
-  const organizations = [
-
-    {
-      id: '1',
-      name: 'Personal'
-    },
-    {
-      id: '2',
-      name: 'Test'
-    }
-  ]
+  const organizations = usersMemberships || [];
 
   return (
     <DropdownMenu>
@@ -57,7 +42,7 @@ const OrganizationSwitcher = () => {
             onClick={() => setSelectedOrganization(organization)}
             className={
               selectedOrganization?.id === organization.id
-                ? "bg-primary text-white"
+                ? "bg-sky-500/10 text-sky-700"
                 : ""
             }
           >
@@ -65,8 +50,8 @@ const OrganizationSwitcher = () => {
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <a href="/organization/create">Create New Organization</a>
+        <DropdownMenuItem asChild>
+          <Link href="/organization/create">Create new Organization</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
