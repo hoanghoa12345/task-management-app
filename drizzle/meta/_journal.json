@@ -1,19 +1,12 @@
 {
-  "version": "5",
-  "dialect": "mysql",
+  "version": "7",
+  "dialect": "postgresql",
   "entries": [
     {
-      "idx": 1,
-      "version": "5",
-      "when": 1707212128955,
-      "tag": "0001_curved_plazm",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1707300898536,
-      "tag": "0002_new_celestials",
+      "idx": 0,
+      "version": "7",
+      "when": 1722052940650,
+      "tag": "0000_outstanding_captain_marvel",
       "breakpoints": true
     }
   ]

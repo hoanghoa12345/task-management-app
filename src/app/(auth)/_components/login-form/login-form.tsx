@@ -21,6 +21,7 @@ import { LoginSchema } from "@/schema/auth";
 import { useTransition } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { login } from "@/actions/login";
+import { Loader2 } from "lucide-react";
 const LoginForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
@@ -40,8 +41,8 @@ const LoginForm = () => {
       login(values, callbackUrl)
         .then((data) => {
           setMessage(data.message as string);
-          if(data?.success) {
-            router.replace(callbackUrl as string || '/');
+          if (data?.success) {
+            router.replace((callbackUrl as string) || "/");
           }
         })
         .catch((error) => setMessage("Error handler: " + error.message))
@@ -55,7 +56,10 @@ const LoginForm = () => {
         description="Enter your credentials to access your account"
       >
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 flex flex-col">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-2 flex flex-col"
+          >
             <FormField
               control={form.control}
               name="email"
@@ -82,9 +86,19 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <p className="w-full text-center text-red-500 text-sm">{message}</p>
+
+            <p className="w-full text-red-500 text-sm">
+              {!isPending && message}
+            </p>
             <Button type="submit" disabled={isPending}>
-              Login
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <span>Please wait</span>
+                </>
+              ) : (
+                <span>Login</span>
+              )}
             </Button>
           </form>
         </Form>

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const LoginPage = ({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | undefined };
 }) => {
   const { callbackUrl } = searchParams ?? { callbackUrl: "" };
 
@@ -26,7 +26,7 @@ const LoginPage = ({
         action={async () => {
           "use server";
           await signIn("hoadev-auth-service", {
-            redirectTo: `${callbackUrl}` ?? "/",
+            redirectTo: callbackUrl ?? "/",
           });
         }}
       >

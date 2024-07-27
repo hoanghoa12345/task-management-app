@@ -6,13 +6,14 @@ dotenv.config({
 });
 
 export default {
-  schema: "./src/db/schema/*.ts",
+  schema: "./src/db/schema.ts",
   out: "./drizzle",
-  driver: "mysql2",
+  dialect: "postgresql",
   dbCredentials: {
-    host: process.env.DB_HOST as string,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME as string,
+    url: process.env.DRIZZLE_DATABASE_URL!,
+  },
+  migrations: {
+    table: "migrations",
+    schema: "public",
   },
 } satisfies Config;
