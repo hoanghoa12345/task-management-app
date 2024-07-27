@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
-import { useOrganization } from "@/hooks/useOrganization";
-import { useOrganizationList } from "@/hooks/useOrganizationList";
+import { useOrganization } from "@/hooks/use-organization";
+import { useOrganizationList } from "@/hooks/use-organization-list";
 import Link from "next/link";
 
 const OrganizationSwitcher = () => {

@@ -3,8 +3,8 @@
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useOrganization } from "@/hooks/useOrganization";
-import { useOrganizationList } from "@/hooks/useOrganizationList";
+import { useOrganization } from "@/hooks/use-organization";
+import { useOrganizationList } from "@/hooks/use-organization-list";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React from "react";

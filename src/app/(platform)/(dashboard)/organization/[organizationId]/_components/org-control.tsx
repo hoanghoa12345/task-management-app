@@ -1,6 +1,6 @@
 "use client";
 
-import { useOrganizationList } from "@/hooks/useOrganizationList";
+import { useOrganizationList } from "@/hooks/use-organization-list";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 

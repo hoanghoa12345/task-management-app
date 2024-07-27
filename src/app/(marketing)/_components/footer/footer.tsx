@@ -9,12 +9,12 @@ export const Footer = () => {
         <Logo />
         <div className="space-x-4 mb:block md:w-auto flex items-center justify-between w-full">
           <Button size="sm" variant="ghost" asChild >
-            <Link href="/privacy-policy">
+            <Link href="/#privacy-policy">
               Privacy Policy
             </Link>
           </Button>
           <Button size="sm" variant="ghost" asChild>
-            <Link href="/terms-of-service">
+            <Link href="/#terms-of-service">
               Terms of Service
             </Link>
           </Button>
