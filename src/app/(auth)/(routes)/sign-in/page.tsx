@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
-import LoginForm from "../../_components/login-form/login-form";
+import LoginForm from "../../_components/auth-form/login-form";
 import { signIn } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { ShieldCheck } from "lucide-react";

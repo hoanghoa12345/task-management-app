@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthError } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "../db";
@@ -26,8 +26,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           const user = await getUserByEmail(email);
 
-          if (!user) return null;
-          if (!user.password) return null;
+          if (!user) {
+            throw new AuthError("User not found.");
+          }
+          if (!user?.password) {
+            throw new AuthError("User not authenticate with credential.");
+          }
 
           const passwordsMatch = await bcrypt.compare(password, user.password);
 

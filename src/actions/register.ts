@@ -5,13 +5,10 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { RegisterSchema } from "@/schema/auth";
 import bcrypt from "bcryptjs";
+import * as z from "zod";
 
-export async function register(formData: FormData) {
-  const validatedFields = RegisterSchema.safeParse({
-    email: formData.get("email"),
-    password: formData.get("password"),
-    confirmPassword: formData.get("confirmPassword"),
-  });
+export async function register(values: z.infer<typeof RegisterSchema>) {
+  const validatedFields = RegisterSchema.safeParse(values);
 
   if (!validatedFields.success) {
     return {
@@ -29,13 +26,13 @@ export async function register(formData: FormData) {
     };
   }
 
-  // const hashPassword = await bcrypt.hash(password, 10);
+  const hashPassword = await bcrypt.hash(password, 10);
 
-  // await db.insert(users).values({
-  //   name: email,
-  //   email: email,
-  //   password: hashPassword,
-  // });
+  await db.insert(users).values({
+    name: email,
+    email: email,
+    password: hashPassword,
+  });
 
-  // return { message: "Create new account successful" };
+  return { message: "Create new account successful" };
 }
