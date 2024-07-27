@@ -19,10 +19,11 @@ const LoginPage = ({
   const { callbackUrl } = searchParams ?? { callbackUrl: "" };
 
   return (
-    <div>
+    <div className="w-[372px]">
       <LoginForm />
+      <div className="my-6 h-[2px] w-full bg-zinc-100"></div>
       <form
-        className="mx-4 my-2"
+        className="my-2 w-full "
         action={async () => {
           "use server";
           await signIn("hoadev-auth-service", {
@@ -30,14 +31,16 @@ const LoginPage = ({
           });
         }}
       >
-        <Button type="submit" variant="outline">
+        <Button type="submit" variant="outline" className="w-full">
           <ShieldCheck className="w-4 h-4 mr-2" /> Sign In With Auth Service
         </Button>
       </form>
-      <div className="text-sm mx-4">
-        <span className="mr-1">Create an account</span>
-        <Link className="font-semibold" href="/sign-up">
-          Register
+      <div className="text-sm underline text-zinc-600 flex justify-between">
+        <Link href="/forgot password">
+          Forgot password?
+        </Link>
+        <Link href="/sign-up">
+          Create an account
         </Link>
       </div>
     </div>

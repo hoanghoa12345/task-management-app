@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -22,6 +21,7 @@ import { useTransition } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { login } from "@/actions/login";
 import { Loader2 } from "lucide-react";
+
 const LoginForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
