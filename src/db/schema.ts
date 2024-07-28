@@ -5,6 +5,7 @@ import {
   text,
   primaryKey,
   integer,
+  index,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -96,6 +97,8 @@ export const organizations = pgTable("organization", {
   name: text("name").notNull(),
   imageUrl: text("imageUrl"),
   slug: text("slug"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 export const boards = pgTable("board", {
@@ -106,5 +109,50 @@ export const boards = pgTable("board", {
     .notNull()
     .references(() => organizations.id, { onDelete: "cascade" }),
   title: text("title"),
-  description: text("description"),
+  imageId: text("imageId"),
+  imageThumbnailUrl: text("imageThumbnailUrl"),
+  imageFullUrl: text("imageFullUrl"),
+  imageUsername: text("imageUsername"),
+  imageLinkHTML: text("imageLinkHTML"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
+
+export const lists = pgTable(
+  "list",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    title: text("title"),
+    order: integer("order"),
+    boardId: text("boardId")
+      .notNull()
+      .references(() => boards.id, { onDelete: "cascade" }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  },
+  (list) => ({
+    boardIdx: index("boardIdx").on(list.boardId),
+  })
+);
+
+export const cards = pgTable(
+  "card",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    title: text("title"),
+    order: integer("order"),
+    description: text("description"),
+    listId: text("listId")
+      .notNull()
+      .references(() => lists.id, { onDelete: "cascade" }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  },
+  (card) => ({
+    listIdx: index("listIdx").on(card.listId),
+  })
+);

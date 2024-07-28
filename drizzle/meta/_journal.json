@@ -8,6 +8,13 @@
       "when": 1722052940650,
       "tag": "0000_outstanding_captain_marvel",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1722180291681,
+      "tag": "0001_small_captain_britain",
+      "breakpoints": true
     }
   ]
 }
