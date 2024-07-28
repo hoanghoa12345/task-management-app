@@ -16,7 +16,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({
           )}
         />
       </div>
-      <div className="relative flex flex-1 flex-col items-center justify-center">
+      <div className="relative flex flex-1 flex-col items-center justify-start py-12 md:py-4 md:justify-center">
         {children}
       </div>
     </div>

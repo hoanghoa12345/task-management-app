@@ -36,12 +36,8 @@ const LoginPage = ({
         </Button>
       </form>
       <div className="text-sm underline text-zinc-600 flex justify-between">
-        <Link href="/#forgot password">
-          Forgot password?
-        </Link>
-        <Link href="/sign-up">
-          Create an account
-        </Link>
+        <Link href="/#forgot password">Forgot password?</Link>
+        <Link href="/sign-up">Create an account</Link>
       </div>
     </div>
   );

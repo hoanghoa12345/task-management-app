@@ -85,3 +85,26 @@ export const authenticators = pgTable(
     }),
   })
 );
+
+export const organizations = pgTable("organization", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  name: text("name").notNull(),
+  imageUrl: text("imageUrl"),
+  slug: text("slug"),
+});
+
+export const boards = pgTable("board", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  organizationId: text("organizationId")
+    .notNull()
+    .references(() => organizations.id, { onDelete: "cascade" }),
+  title: text("title"),
+  description: text("description"),
+});

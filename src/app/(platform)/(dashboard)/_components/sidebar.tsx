@@ -7,12 +7,15 @@ import { useOrganization } from "@/hooks/use-organization";
 import { useOrganizationList } from "@/hooks/use-organization-list";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+// import dynamic from 'next/dynamic'
 import React from "react";
 import { useLocalStorage } from "usehooks-ts";
 import NavItem from "./nav-item";
 interface SidebarProps {
   storageKey?: string;
 }
+
+// const NoSSR = dynamic(() => import('./nav-item'), { ssr: false })
 
 export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
   const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(
