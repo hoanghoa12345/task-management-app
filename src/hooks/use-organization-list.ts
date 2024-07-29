@@ -1,20 +1,25 @@
+import { useEffect, useState } from "react";
+
 export const useOrganizationList = () => {
   const setActive = ({ organization }: { organization: string }) => {};
-  let usersMemberships: any[] = [
-    {
-      id: "1",
-      name: "Personal",
-      imageUrl: "https://picsum.photos/200/200",
-      slug: "personal",
-    },
-    {
-      id: "2",
-      name: "Team",
-      imageUrl: "https://picsum.photos/200/200",
-      slug: "team",
-    },
-  ];
-  let isLoaded: boolean = true;
+  const [usersMemberships, setUsersMemberships] = useState<any[]>([]);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/organizations");
+        const data = await response.json();
+        setUsersMemberships(data.data.organizations);
+      } catch (error) {
+        console.error("Error fetching organizations:", error);
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return {
     setActive,

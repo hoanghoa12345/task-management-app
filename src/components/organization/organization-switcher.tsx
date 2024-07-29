@@ -51,7 +51,7 @@ const OrganizationSwitcher = () => {
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/organization/create">Create new Organization</Link>
+          <Link href="/select-org">Create new Organization</Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
