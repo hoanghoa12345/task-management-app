@@ -32,7 +32,7 @@ export async function login(
       email,
       password,
       redirect: false,
-      redirectTo: callbackUrl ?? "/",
+      redirectTo: callbackUrl ?? "/select-org",
     });
     return {
       success: true,

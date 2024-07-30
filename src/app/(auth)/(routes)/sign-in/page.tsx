@@ -27,7 +27,7 @@ const LoginPage = ({
         action={async () => {
           "use server";
           await signIn("hoadev-auth-service", {
-            redirectTo: callbackUrl ?? "/",
+            redirectTo: callbackUrl ?? "/select-org",
           });
         }}
       >
