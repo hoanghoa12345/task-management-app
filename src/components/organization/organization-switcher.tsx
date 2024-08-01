@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,24 +13,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
-import { useOrganization } from "@/hooks/use-organization";
 import { useOrganizationList } from "@/hooks/use-organization-list";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Organization } from "./organization";
+import { useOrganization } from "@/hooks/use-organization";
 
 const OrganizationSwitcher = () => {
   const { organization } = useOrganization();
   const { usersMemberships } = useOrganizationList();
   const router = useRouter();
 
-  const [selectedOrganization, setSelectedOrganization] = useState(
-    organization || []
-  );
+  const [selectedOrganization, setSelectedOrganization] =
+    useState<Organization | undefined>(organization);
   const organizations = usersMemberships || [];
 
   useEffect(() => {
-    router.push(`/organization/${selectedOrganization?.id}`);
-  }, [selectedOrganization])
+    if (selectedOrganization) {
+      router.push(`/organization/${selectedOrganization.id}`);
+    }
+  }, [selectedOrganization]);
 
   return (
     <DropdownMenu>

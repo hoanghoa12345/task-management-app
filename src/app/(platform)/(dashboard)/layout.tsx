@@ -1,13 +1,16 @@
 import React from "react";
 import Navbar from "./_components/navbar";
+import { OrganizationProvider } from "@/components/organization/organization";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-full">
-      <Navbar />
+    <OrganizationProvider>
+      <div className="h-full">
+        <Navbar />
 
-      {children}
-    </div>
+        {children}
+      </div>
+    </OrganizationProvider>
   );
 };
 

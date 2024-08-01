@@ -1,14 +1,12 @@
-export const useOrganization = () => {
-  let organization = {
-    id: "1",
-    name: "Personal",
-    imageUrl: "https://photos.picsum/200/200",
-    slug: "personal",
-  };
-  let isLoaded: boolean = true;
+import { OrganizationContext } from "@/components/organization/organization";
+import { useContext } from "react";
 
-  return {
-    organization,
-    isLoaded,
-  };
+export const useOrganization = () => {
+  const context = useContext(OrganizationContext);
+
+  if (!context) {
+    throw new Error("useOrganization must be used within OrganizationProvider");
+  }
+
+  return context;
 };
