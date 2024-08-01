@@ -4,7 +4,7 @@ import { getUserByEmail } from "@/data/users";
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { RegisterSchema } from "@/schema/auth";
-import { getGravatarURL } from "@/utils/gavatar";
+import { getGravatarURL } from "@/utils/gravatar";
 import bcrypt from "bcryptjs";
 import * as z from "zod";
 
