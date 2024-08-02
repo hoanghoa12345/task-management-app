@@ -15,6 +15,13 @@
       "when": 1722180291681,
       "tag": "0001_small_captain_britain",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1722606166241,
+      "tag": "0002_chemical_nehzno",
+      "breakpoints": true
     }
   ]
 }

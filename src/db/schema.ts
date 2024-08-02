@@ -156,3 +156,15 @@ export const cards = pgTable(
     listIdx: index("listIdx").on(card.listId),
   })
 );
+
+export const images = pgTable("image", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  thumbnailUrl: text("thumbnailUrl"),
+  fullUrl: text("fullUrl"),
+  username: text("username"),
+  linkHTML: text("linkHTML"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});

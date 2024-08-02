@@ -1,6 +1,8 @@
 "use client";
 
+import { ORGANIZATION_ID } from "@/utils/constants";
 import { createContext, useEffect, useState } from "react";
+import { useCookie } from "react-use";
 
 export type Organization = {
   id: string;
@@ -28,6 +30,7 @@ export const OrganizationProvider = ({
   const [usersMemberships, setUsersMemberships] = useState<Organization[]>([]);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [organization, setOrganization] = useState<Organization>();
+  const [_value, updateCookie, _deleteCookie] = useCookie(ORGANIZATION_ID);
 
   const fetchOrganizations = async () => {
     try {
@@ -46,6 +49,7 @@ export const OrganizationProvider = ({
       (item) => item.id === organization
     );
     setOrganization(selectedOrganization);
+    updateCookie(selectedOrganization?.id!);
   };
 
   useEffect(() => {
@@ -54,7 +58,13 @@ export const OrganizationProvider = ({
 
   return (
     <OrganizationContext.Provider
-      value={{ usersMemberships, organization, isLoaded, setActive, fetchOrganizations }}
+      value={{
+        usersMemberships,
+        organization,
+        isLoaded,
+        setActive,
+        fetchOrganizations,
+      }}
     >
       {children}
     </OrganizationContext.Provider>

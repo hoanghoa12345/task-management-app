@@ -1,4 +1,2 @@
-export const app = {
-  APP_NAME: "Task Manager",
-  APP_VERSION: "1.0.0",
-};
+export const MAX_FREE_BOARDS = 5;
+export const ORGANIZATION_ID = "organizationId";
