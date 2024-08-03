@@ -5,6 +5,8 @@ import { db } from "../db";
 import { LoginSchema } from "@/schema/auth";
 import { getUserByEmail } from "@/data/users";
 import bcrypt from "bcryptjs";
+import Passkey from "next-auth/providers/passkey";
+import { AUTH_SERVICE_PROVIDER } from "@/utils/constants";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db),
@@ -43,8 +45,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
     {
-      id: "hoadev-auth-service",
-      name: "HoaDev Auth Service",
+      id: AUTH_SERVICE_PROVIDER.id,
+      name: AUTH_SERVICE_PROVIDER.name,
       type: "oidc",
       wellKnown: `${process.env.AUTH_PROVIDER_URL}/.well-known/openid-configuration`,
       issuer: process.env.AUTH_PROVIDER_ISSUER,
@@ -64,6 +66,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       clientSecret: process.env.AUTH_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     },
+    Passkey,
   ],
   pages: {
     signIn: "/sign-in",
@@ -87,4 +90,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
   },
+  experimental: { enableWebAuthn: true },
 });
