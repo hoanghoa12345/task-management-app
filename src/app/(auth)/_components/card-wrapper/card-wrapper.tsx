@@ -9,7 +9,7 @@ interface CardWrapperProps {
 }
 
 const CardWrapper = ({ title, description, children }: CardWrapperProps) => {
-  return <div className="bg-white">
+  return <div className="space-y-2 bg-white dark:bg-neutral-800">
     <div className="flex flex-col space-y-2 text-center">
       <h1 className="text-2xl font-semibold tracking-tight">
         {title}
