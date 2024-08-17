@@ -12,11 +12,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
+import { getUserName } from "@/utils/user";
 
 const UserButton = () => {
   const session = useSession();
   const user = session?.data?.user;
   const router = useRouter();
+  if (!user) {
+    return null;
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -34,7 +38,7 @@ const UserButton = () => {
               {user?.name?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <span className="text-sm">{user?.name}</span>
+          <span className="text-sm">{getUserName(user)}</span>
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => router.push("/profile")}>

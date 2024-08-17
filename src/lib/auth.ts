@@ -49,7 +49,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       name: AUTH_SERVICE_PROVIDER.name,
       type: "oidc",
       wellKnown: `${process.env.AUTH_PROVIDER_URL}/.well-known/openid-configuration`,
-      issuer: process.env.AUTH_PROVIDER_ISSUER,
+      issuer: process.env.AUTH_PROVIDER_ISSUER || process.env.AUTH_PROVIDER_URL,
       authorization: `${process.env.AUTH_PROVIDER_URL}/auth`,
       token: `${process.env.AUTH_PROVIDER_URL}/token`,
       userinfo: `${process.env.AUTH_PROVIDER_URL}/me`,

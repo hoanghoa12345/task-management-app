@@ -65,25 +65,29 @@ const OrganizationSwitcher = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48">
         <DropdownMenuLabel></DropdownMenuLabel>
-        {organizations.map((organization) => (
-          <DropdownMenuItem
-            key={organization.id}
-            onClick={() => setSelectedOrganization(organization)}
-            className={cn("space-x-2 font-medium", {
-              "bg-sky-500/10 text-sky-700":
-                selectedOrganization?.id === organization.id,
-            })}
-          >
-            <Image
-              src={organization?.imageUrl || ""}
-              alt={organization?.name || ""}
-              width={32}
-              height={32}
-              className="rounded-sm object-cover"
-            />
-            <span>{organization?.name}</span>
-          </DropdownMenuItem>
-        ))}
+        {organizations.length === 0 ? (
+          <DropdownMenuLabel>No organizations found</DropdownMenuLabel>
+        ) : (
+          organizations.map((organization) => (
+            <DropdownMenuItem
+              key={organization.id}
+              onClick={() => setSelectedOrganization(organization)}
+              className={cn("space-x-2 font-medium", {
+                "bg-sky-500/10 text-sky-700":
+                  selectedOrganization?.id === organization.id,
+              })}
+            >
+              <Image
+                src={organization?.imageUrl || ""}
+                alt={organization?.name || ""}
+                width={32}
+                height={32}
+                className="rounded-sm object-cover"
+              />
+              <span>{organization?.name}</span>
+            </DropdownMenuItem>
+          ))
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href="/select-org">

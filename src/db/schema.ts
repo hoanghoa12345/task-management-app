@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   boolean,
   timestamp,
@@ -168,3 +169,14 @@ export const images = pgTable("image", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
+
+export const listsRelation = relations(lists, ({ many }) => ({
+  cards: many(cards),
+}));
+
+export const cardsRelation = relations(cards, ({ one }) => ({
+  list: one(lists, {
+    fields: [cards.listId],
+    references: [lists.id],
+  }),
+}));

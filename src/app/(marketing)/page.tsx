@@ -1,12 +1,9 @@
-import Image from "next/image";
 import React from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
-// import Navbar from "./_components/navbar/navbar";
+import { Button } from "@/components/ui/button";
 import { Poppins } from "next/font/google";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { auth } from "@/lib/auth";
-import { SessionProvider } from "next-auth/react";
 import { Medal } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +13,7 @@ const headingFont = Poppins({
 });
 
 const MarketingPage = async () => {
+  const session = await auth();
   return (
     <div className="flex items-center justify-center flex-col">
       <div
@@ -40,9 +38,15 @@ const MarketingPage = async () => {
         rises to the home offices, the way our team works is unique accomplish
         it all with {siteConfig.name}
       </div>
-      <Button className="mt-6" size="lg" asChild>
-        <Link href="/sign-up">Get {siteConfig.name} for free</Link>
-      </Button>
+      {session?.user ? (
+        <Button className="mt-6" size="lg" asChild>
+          <Link href="/select-org">Enter {siteConfig.name}</Link>
+        </Button>
+      ) : (
+        <Button className="mt-6" size="lg" asChild>
+          <Link href="/sign-up">Get {siteConfig.name} for free</Link>
+        </Button>
+      )}
     </div>
   );
 };

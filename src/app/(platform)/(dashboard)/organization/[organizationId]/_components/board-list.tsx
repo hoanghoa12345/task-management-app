@@ -6,14 +6,22 @@ import { Hint } from "@/components/hint";
 import Link from "next/link";
 import { MAX_FREE_BOARDS } from "@/utils/constants";
 import { db } from "@/db";
+import { redirect } from "next/navigation";
+import { organizationIdCookie } from "@/utils/organization";
 
 export const BoardList = async () => {
-  const organizationId = '';
+  const { orgId } = organizationIdCookie();
+  if (!orgId) {
+    return redirect("/select-org");
+  }
+
   const boards = await db.query.boards.findMany({
-    where: (boards, { eq }) => eq(boards.organizationId, organizationId),
+    where: (boards, { eq }) => eq(boards.organizationId, orgId),
+    orderBy: (boards, { desc }) => [desc(boards.createdAt)],
   });
   const isPro = false;
   const availableCount = 0;
+
   return (
     <div className="space-y-4">
       <div className="flex items-center font-semibold text-lg text-neutral-700">
