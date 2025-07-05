@@ -4,7 +4,7 @@ import { organizationIdCookie } from "@/utils/organization";
 import { and, eq } from "drizzle-orm";
 import { notFound, redirect } from "next/navigation";
 import React from "react";
-// import BoardNavbar from "./_components/board-navbar";
+import { BoardNavbar } from "./_components/board-navbar";
 
 export async function generateMetadata({
   params,
@@ -45,13 +45,10 @@ const BoardIdLayout = async ({
     redirect("/select-org");
   }
 
-  const board = await db
-    .select()
-    .from(boards)
-    .where(and(eq(boards.id, boardId), eq(boards.organizationId, orgId)))
-    .limit(1)
-    .then((data) => data[0])
-    .catch(() => null);
+  const board = await db.query.boards.findFirst({
+    where: (boards, { eq, and }) =>
+      and(eq(boards.id, boardId), eq(boards.organizationId, orgId)),
+  });
 
   if (!board) {
     notFound();
@@ -62,7 +59,7 @@ const BoardIdLayout = async ({
       className="relative h-full bg-no-repeat bg-cover bg-center"
       style={{ backgroundImage: `url(${board.imageFullUrl})` }}
     >
-      {/* <BoardNavbar board={board} /> */}
+      <BoardNavbar board={board} />
       <div className="absolute inset-0 bg-black/10" />
       <main className="relative pt-28 h-full">{children}</main>
     </div>
