@@ -67,7 +67,7 @@ export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
   return (
     <Button
       className="font-bold text-lg h-auto w-auto p-1 px-2"
-      variant={"ghost"}
+      variant={"transparent"}
       onClick={enableEditing}
     >
       {title}

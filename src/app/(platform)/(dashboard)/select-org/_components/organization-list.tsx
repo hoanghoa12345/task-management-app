@@ -1,43 +1,44 @@
-"use client";
+"use client"
 
 import React from "react";
-import { useAction } from "@/hooks/use-action";
-import { createOrganization } from "@/actions/create-organization";
-import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
-import { FormInput } from "@/components/form/form-input";
+import { useOrganizationList } from "@/hooks/use-organization-list";
+import { OrganizationCard } from "./organization-card";
+import { useRouter } from "next/navigation";
 
 const OrganizationList = () => {
-  const { pending } = useFormStatus();
-  const { execute, fieldErrors } = useAction(createOrganization, {
-    onSuccess(data) {
-      console.log(data);
-    },
-    onError(error) {
-      console.error(error);
-    },
-  });
+  const { usersMemberships } = useOrganizationList();
+  const organizations = usersMemberships || [];
+  
 
-  const onSubmit = (formData: FormData) => {
-    const name = formData.get("name") as string;
-    const imageUrl = formData.get("imageUrl") as string;
-    const slug = formData.get("slug") as string;
+  const router = useRouter();
+ 
 
-    execute({ name, imageUrl, slug });
+  const onNewOrganization = () => {
+    router.push("/select-org/new");
   };
 
   return (
-    <div>
-      <div>
-      </div>
-
-      <div>
-        <form action={onSubmit}>
-          <FormInput label="Organization name" type="text" id="name" errors={fieldErrors} />
-          <FormInput label="Organization thumbnail" type="text" id="imageUrl" errors={fieldErrors} />
-          <FormInput label="Organization slug" type="text" id="slug" errors={fieldErrors} />
-          <Button type="submit" disabled={pending}>Submit</Button>
-        </form>
+    <div className="flex flex-1 w-full overflow-y-hidden">
+      <div className="mx-auto w-full px-4 my-2 max-w-6xl flex flex-col gap-8">
+        <div className="flex-grow h-full overflow-y-auto">
+          <h1 className="text-2xl">Your Organizations</h1>
+        </div>
+        <div className="flex items-center gap-x-2">
+          <Button onClick={onNewOrganization} variant={"primary"}>
+            New organization
+          </Button>
+        </div>
+        <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {organizations.map((organization) => (
+              <OrganizationCard
+                key={organization.id}
+                organization={organization}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
