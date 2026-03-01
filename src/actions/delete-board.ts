@@ -26,7 +26,8 @@ export const DeleteBoardSchema = z.object({
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
   const userId = session?.user?.id;
-  const orgId = cookies().get("organizationId")?.value;
+  const cookieStore = await cookies();
+  const orgId = cookieStore.get("organizationId")?.value;
 
   if (!userId || !orgId) {
     return {

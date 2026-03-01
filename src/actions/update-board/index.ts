@@ -13,7 +13,8 @@ import { UpdateBoard } from "./schema";
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
   const userId = session?.user?.id;
-  const organizationId = cookies().get("organizationId")?.value;
+  const cookieStore = await cookies();
+  const organizationId = cookieStore.get("organizationId")?.value;
 
   if (!userId || !organizationId) {
     return {

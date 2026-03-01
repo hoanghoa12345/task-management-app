@@ -37,10 +37,10 @@ const BoardIdLayout = async ({
   params,
 }: {
   children: React.ReactNode;
-  params: { boardId: string };
+  params: Promise<{ boardId: string }>;
 }) => {
-  const { orgId } = organizationIdCookie();
-  const { boardId } = params;
+  const { orgId } = await organizationIdCookie();
+  const { boardId } = await params;
   if (!orgId) {
     redirect("/select-org");
   }
