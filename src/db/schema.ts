@@ -117,6 +117,7 @@ export const boards = pgTable("board", {
   imageLinkHTML: text("imageLinkHTML"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  deletedAt: timestamp("deletedAt"),
 });
 
 export const lists = pgTable(
@@ -132,6 +133,7 @@ export const lists = pgTable(
       .references(() => boards.id, { onDelete: "cascade" }),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
     updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+    deletedAt: timestamp("deletedAt"),
   },
   (list) => ({
     boardIdx: index("boardIdx").on(list.boardId),
@@ -152,6 +154,7 @@ export const cards = pgTable(
       .references(() => lists.id, { onDelete: "cascade" }),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
     updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+    deletedAt: timestamp("deletedAt"),
   },
   (card) => ({
     listIdx: index("listIdx").on(card.listId),
@@ -168,7 +171,24 @@ export const images = pgTable("image", {
   linkHTML: text("linkHTML"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  deletedAt: timestamp("deletedAt"),
 });
+
+export const settings = pgTable(
+  "settings",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    key: text("key").notNull(),
+    value: text("value").notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  },
+  (settings) => ({
+    keyIdx: index("key_idx").on(settings.key),
+  })
+);
 
 export const listsRelation = relations(lists, ({ many }) => ({
   cards: many(cards),

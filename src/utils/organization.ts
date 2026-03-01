@@ -3,7 +3,7 @@ import { ORGANIZATION_ID } from "./constants";
 import { db } from "@/db";
 
 export async function getCurrentOrganization() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const organizationId = cookieStore.get(ORGANIZATION_ID);
 
   if (!organizationId) return null;
@@ -15,8 +15,8 @@ export async function getCurrentOrganization() {
   return organizations.then((organizations) => organizations[0]);
 }
 
-export function organizationIdCookie() {
-  const cookieStore = cookies();
+export async function organizationIdCookie() {
+  const cookieStore = await cookies();
   const orgIdCookie = cookieStore.get(ORGANIZATION_ID);
   return {
     orgId: orgIdCookie?.value,

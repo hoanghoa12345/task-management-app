@@ -15,12 +15,12 @@ export const Info = () => {
   return (
     <div className="flex items-center gap-x-4">
       <div className="w-[60px] h-[60px] relative">
-        <Image
+        {organization?.imageUrl && <Image
           fill
-          src={organization?.imageUrl!}
+          src={organization?.imageUrl}
           alt="organization"
           className="rounded-md object-cover"
-        />
+        />}
       </div>
       <div>
         <p className="font-semibold text-xl">{organization?.name}</p>

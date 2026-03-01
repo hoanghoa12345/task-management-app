@@ -32,10 +32,8 @@ const OrganizationSwitcher = () => {
   const organizations = usersMemberships || [];
 
   useEffect(() => {
-    if (selectedOrganization) {
-      router.push(`/organization/${selectedOrganization.id}`);
-    }
-  }, [selectedOrganization]);
+    setSelectedOrganization(organization);
+  }, [organization]);
 
   return (
     <DropdownMenu>
@@ -53,6 +51,8 @@ const OrganizationSwitcher = () => {
                 width={24}
                 height={24}
                 className="rounded-sm object-cover"
+                objectFit="cover"
+                style={{ width: 24, height: 24 }}
               />
               <span>{selectedOrganization?.name}</span>
             </>
@@ -71,7 +71,10 @@ const OrganizationSwitcher = () => {
           organizations.map((organization) => (
             <DropdownMenuItem
               key={organization.id}
-              onClick={() => setSelectedOrganization(organization)}
+              onClick={() => {
+                router.push(`/organization/${organization.id}`);
+                router.refresh();
+              }}
               className={cn("space-x-2 font-medium", {
                 "bg-sky-500/10 text-sky-700":
                   selectedOrganization?.id === organization.id,

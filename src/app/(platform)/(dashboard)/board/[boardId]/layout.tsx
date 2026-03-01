@@ -11,7 +11,7 @@ export async function generateMetadata({
 }: {
   params: { boardId: string };
 }) {
-  const { orgId } = organizationIdCookie();
+  const { orgId } = await organizationIdCookie();
 
   if (!orgId) {
     return {

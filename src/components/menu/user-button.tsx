@@ -29,10 +29,10 @@ const UserButton = () => {
           <AvatarFallback>{user?.name?.charAt(0).toUpperCase()}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent side="bottom" align="start" className="w-[12rem] mr-2 mt-4">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <div className="flex items-center gap-2">
-          <Avatar>
+        <div className="flex items-center gap-2 mx-2 py-2">
+          <Avatar className="size-8">
             <AvatarImage src={user?.image ?? undefined} />
             <AvatarFallback>
               {user?.name?.charAt(0).toUpperCase()}

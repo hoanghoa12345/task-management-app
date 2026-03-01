@@ -9,7 +9,7 @@ interface IBoardIdPageProps {
   };
 }
 const BoardIdPage = async ({ params }: IBoardIdPageProps) => {
-  const { orgId } = organizationIdCookie();
+  const { orgId } = await organizationIdCookie();
 
   if (!orgId) {
     redirect("/select-org");

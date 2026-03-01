@@ -10,7 +10,7 @@ import { redirect } from "next/navigation";
 import { organizationIdCookie } from "@/utils/organization";
 
 export const BoardList = async () => {
-  const { orgId } = organizationIdCookie();
+  const { orgId } = await organizationIdCookie();
   if (!orgId) {
     return redirect("/select-org");
   }
