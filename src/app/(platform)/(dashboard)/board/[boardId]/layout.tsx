@@ -9,7 +9,7 @@ import { BoardNavbar } from "./_components/board-navbar";
 export async function generateMetadata({
   params,
 }: {
-  params: { boardId: string };
+  params: Promise<{ boardId: string }>;
 }) {
   const { orgId } = await organizationIdCookie();
 
@@ -19,10 +19,12 @@ export async function generateMetadata({
     };
   }
 
+  const { boardId } = await params;
+
   const board = await db
     .select()
     .from(boards)
-    .where(and(eq(boards.id, params.boardId), eq(boards.organizationId, orgId)))
+    .where(and(eq(boards.id, boardId), eq(boards.organizationId, orgId)))
     .limit(1)
     .then((data) => data[0])
     .catch(() => null);

@@ -50,9 +50,8 @@ const OrganizationSwitcher = () => {
                 alt={selectedOrganization?.name}
                 width={24}
                 height={24}
-                className="rounded-sm object-cover"
+                className="rounded-sm object-cover size-6"
                 objectFit="cover"
-                style={{ width: 24, height: 24 }}
               />
               <span>{selectedOrganization?.name}</span>
             </>
@@ -85,7 +84,7 @@ const OrganizationSwitcher = () => {
                 alt={organization?.name || ""}
                 width={32}
                 height={32}
-                className="rounded-sm object-cover"
+                className="rounded-sm object-cover size-8"
               />
               <span>{organization?.name}</span>
             </DropdownMenuItem>

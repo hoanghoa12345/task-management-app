@@ -23,7 +23,6 @@ export default auth((req) => {
     if (organizationId) {
       path = `/organization/${organizationId.value}`;
     }
-    console.log(path);
     const selectOrgUrl = new URL(path, req.nextUrl.origin);
     return Response.redirect(selectOrgUrl);
   }

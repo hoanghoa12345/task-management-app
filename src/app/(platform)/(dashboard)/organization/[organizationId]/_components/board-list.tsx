@@ -9,14 +9,17 @@ import { db } from "@/db";
 import { redirect } from "next/navigation";
 import { organizationIdCookie } from "@/utils/organization";
 
-export const BoardList = async () => {
-  const { orgId } = await organizationIdCookie();
-  if (!orgId) {
+export const BoardList = async ({
+  organizationId,
+}: {
+  organizationId: string;
+}) => {
+  if (!organizationId) {
     return redirect("/select-org");
   }
 
   const boards = await db.query.boards.findMany({
-    where: (boards, { eq }) => eq(boards.organizationId, orgId),
+    where: (boards, { eq }) => eq(boards.organizationId, organizationId),
     orderBy: (boards, { desc }) => [desc(boards.createdAt)],
   });
   const isPro = false;
