@@ -1,7 +1,17 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
+
+import { useAction } from "@/hooks/use-action";
+import { updateCardOrder } from "@/actions/update-card-order";
+import { updateListOrder } from "@/actions/update-list-order";
+import { List, Card } from "@/db/types";
+
+export type ListWithCards = List & { cards: Card[] };
+
 interface IListContainerProps {
-  data: any[];
+  data: ListWithCards[];
 }
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
@@ -12,6 +22,106 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
 }
 
 const ListContainer = ({ data }: IListContainerProps) => {
+  const { execute: executeListReOrder } = useAction(updateListOrder, {
+    onSuccess: () => {
+      toast.success("List reordered.");
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
+  const { execute: executeCardReOrder } = useAction(updateCardOrder, {
+    onSuccess: () => {
+      toast.success("Card reordered.");
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
+  const [orderedData, setOrderedData] = useState(data);
+
+  useEffect(() => {
+    setOrderedData(data);
+  }, [data]);
+
+  const onDragEnd = useCallback(
+    (result: any) => {
+      const { destination, source, type } = result;
+
+      if (!destination) {
+        return;
+      }
+
+      if (
+        destination.droppableId === source.droppableId &&
+        destination.index === source.index
+      ) {
+        return;
+      }
+
+      // on list order change
+      if (type === "list") {
+        const items = reorder(orderedData, source.index, destination.index).map(
+          (item, index) => ({ ...item, order: index })
+        );
+        setOrderedData(items);
+
+        const result = executeListReOrder({ items });
+        toast.promise(result, {
+          loading: "List reorder loading...",
+        });
+      }
+
+      // on card order change
+      if (type === "card") {
+        const newOrderedData = [...orderedData];
+
+        const destinationList = newOrderedData.find(
+          (list) => list.id === destination.droppableId
+        );
+        const sourceList = newOrderedData.find(
+          (list) => list.id === source.droppableId
+        );
+
+        if (!destinationList || !sourceList) {
+          return;
+        }
+
+        // change only order of cart when destination list equals to source list
+        if (destination.droppableId === source.droppableId) {
+          const orderedCards = reorder(
+            sourceList.cards,
+            source.index,
+            destination.index
+          ).map((card, idx) => ({ ...card, order: idx }));
+
+          sourceList.cards = orderedCards;
+          const result = executeCardReOrder({ items: orderedCards });
+          toast.promise(result, {
+            loading: "Card reorder loading...",
+          });
+        } else {
+          const [movedCard] = sourceList.cards.splice(source.index, 1);
+
+          movedCard.listId = destinationList.id;
+          destinationList.cards.splice(destination.index, 0, movedCard);
+
+          sourceList.cards.forEach((card, idx) => (card.order = idx));
+          destinationList.cards.forEach((card, idx) => (card.order = idx));
+
+          const result = executeCardReOrder({
+            items: [...sourceList.cards, ...destinationList.cards],
+          });
+          toast.promise(result, {
+            loading: "Card reorder loading...",
+          });
+        }
+        setOrderedData(newOrderedData);
+      }
+    },
+    [orderedData, executeListReOrder, executeCardReOrder]
+  );
+
   return <></>;
 };
 

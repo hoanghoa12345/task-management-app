@@ -29,16 +29,23 @@ const UserButton = () => {
           <AvatarFallback>{user?.name?.charAt(0).toUpperCase()}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side="bottom" align="start" className="w-48 mr-2 mt-4">
+      <DropdownMenuContent
+        side="bottom"
+        align="start"
+        className="w-50 mr-2 mt-4"
+      >
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <div className="flex items-center gap-2 mx-2 py-2">
-          <Avatar className="size-8">
+          <Avatar className="size-10">
             <AvatarImage src={user?.image ?? undefined} />
             <AvatarFallback>
               {user?.name?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <span className="text-sm">{getUserName(user)}</span>
+          <div className="flex flex-col">
+            <span className="text-sm">{getUserName(user)}</span>
+            <span className="text-xs text-neutral-500 truncate">{user.email}</span>
+          </div>
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => router.push("/profile")}>

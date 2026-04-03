@@ -19,7 +19,8 @@ export const BoardList = async ({
   }
 
   const boards = await db.query.boards.findMany({
-    where: (boards, { eq }) => eq(boards.organizationId, organizationId),
+    where: (boards, { and, eq, isNull }) =>
+      and(eq(boards.organizationId, organizationId), isNull(boards.deletedAt)),
     orderBy: (boards, { desc }) => [desc(boards.createdAt)],
   });
   const isPro = false;

@@ -11,17 +11,12 @@ import { z } from "zod";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export type InputType = z.infer<typeof DeleteBoardSchema>;
-export type ReturnType = ActionState<InputType, Board>;
+type InputType = z.infer<typeof DeleteBoard>;
+type ReturnType = ActionState<InputType, Board>;
 
-export const DeleteBoardSchema = z.object({
+const DeleteBoard = z.object({
   id: z.string(),
 });
-
-// export async function deleteBoard(id: string) {
-//   await db.delete(boards).where(eq(boards.id, id));
-//   revalidatePath("/organization/1");
-// }
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
@@ -61,4 +56,4 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   redirect(`/organization/${orgId}`);
 };
 
-export const deleteBoard = createSafeAction(DeleteBoardSchema, handler);
+export const deleteBoard = createSafeAction(DeleteBoard, handler);
