@@ -9,7 +9,7 @@ interface OrganizationCardProps {
 export const OrganizationCard = ({ organization }: OrganizationCardProps) => {
   return (
     <Link href={`/organization/${organization.id}`}>
-      <div className="rounded-lg text-card-foreground shadow-sm bg-card grow p-3 transition-colors hover:bg-accent border border-light hover:border-default cursor-pointer flex items-center min-h-20 w-full">
+      <div className="rounded-lg text-card-foreground shadow-xs bg-card grow p-3 transition-colors hover:bg-accent border border-light hover:border-default cursor-pointer flex items-center min-h-20 w-full">
         <div className="relative flex items-start gap-3">
           <div>
             <Image

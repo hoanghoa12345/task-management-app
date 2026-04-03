@@ -21,7 +21,7 @@ const OrganizationList = () => {
   return (
     <div className="flex flex-1 w-full overflow-y-hidden">
       <div className="mx-auto w-full px-4 my-2 max-w-6xl flex flex-col gap-8">
-        <div className="flex-grow h-full overflow-y-auto">
+        <div className="grow h-full overflow-y-auto">
           <h1 className="text-2xl">Your Organizations</h1>
         </div>
         <div className="flex items-center gap-x-2">

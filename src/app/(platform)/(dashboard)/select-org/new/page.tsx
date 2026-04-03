@@ -36,7 +36,7 @@ const NewOrganizationPage = () => {
     <div className="flex flex-1 w-full overflow-y-hidden">
       <div className="flex justify-center items-center w-full h-full">
         <form action={onSubmit}>
-          <div className="w-[400px] md:w-[450px] bg-card rounded-md border shadow-sm overflow-hidden my-20">
+          <div className="w-[400px] md:w-[450px] bg-card rounded-md border shadow-xs overflow-hidden my-20">
             <div className="border-b border-default flex items-center p-4">
               <h4>Create a new organization</h4>
             </div>
