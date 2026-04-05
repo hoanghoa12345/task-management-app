@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 
 import { ActionState, createSafeAction } from "@/lib/create-safe-action";
 import { db } from "@/db";
@@ -39,27 +39,30 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
   let updatedCards;
   try {
-    updatedCards = await db.transaction(async (tx) => {
-      const results: Card[] = [];
-      items.forEach(async (card) => {
-        await tx
-          .update(cards)
-          .set({
-            order: card.order,
-            listId: card.listId,
-          })
-          .where(eq(cards.id, card.id));
-        const updated = await tx.query.cards.findMany({
-          where: eq(cards.id, card.id),
-          with: {
-            list: true,
-          },
-        });
-        results.push(...updated);
-      });
-      return results;
+    const promises = items.map(
+      (card) =>
+        new Promise<Card>((resolve, reject) => {
+          db.update(cards)
+            .set({
+              order: card.order,
+              listId: card.listId,
+            })
+            .where(eq(cards.id, card.id))
+            .returning()
+            .then((card) => resolve(card[0]))
+            .catch(reject);
+        })
+    );
+    updatedCards = await Promise.all(promises);
+    const cardIds = updatedCards.map((card) => card.id);
+    updatedCards = await db.query.cards.findMany({
+      where: inArray(cards.id, cardIds),
+      with: {
+        list: true,
+      },
     });
   } catch (error) {
+    console.error(`Update Card Order ${error}`);
     return {
       error: "Failed to update list order.",
     };

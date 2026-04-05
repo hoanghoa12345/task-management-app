@@ -29,6 +29,13 @@
       "when": 1771164467379,
       "tag": "0003_bored_psynapse",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1775357543486,
+      "tag": "0004_steady_shocker",
+      "breakpoints": true
     }
   ]
 }

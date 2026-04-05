@@ -56,7 +56,7 @@ const OrganizationSwitcher = () => {
               <span>{selectedOrganization?.name}</span>
             </>
           ) : (
-            "Select Organization"
+            <span>Select Organization</span>
           )}
 
           <ChevronsUpDown className="ml-2 h-4 w-4 text-neutral-500" />

@@ -2,11 +2,14 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 import { useAction } from "@/hooks/use-action";
 import { updateCardOrder } from "@/actions/update-card-order";
 import { updateListOrder } from "@/actions/update-list-order";
 import { List, Card } from "@/db/types";
+import ListForm from "../list-form";
+import ListItem from "../list-item";
 
 export type ListWithCards = List & { cards: Card[] };
 
@@ -122,7 +125,26 @@ const ListContainer = ({ data }: IListContainerProps) => {
     [orderedData, executeListReOrder, executeCardReOrder]
   );
 
-  return <></>;
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="lists" type="list" direction="horizontal">
+        {(provided) => (
+          <ol
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className="flex gap-x-3 h-full"
+          >
+            {orderedData.map((list, idx) => (
+              <ListItem key={list.id} index={idx} data={list} />
+            ))}
+            {provided.placeholder}
+            <ListForm />
+            <div className="shrink-0 w-1" />
+          </ol>
+        )}
+      </Droppable>
+    </DragDropContext>
+  );
 };
 
 export default ListContainer;

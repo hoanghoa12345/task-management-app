@@ -127,7 +127,7 @@ export const lists = pgTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     title: text("title"),
-    order: integer("order"),
+    order: integer("order").notNull(),
     boardId: text("boardId")
       .notNull()
       .references(() => boards.id, { onDelete: "cascade" }),
@@ -147,7 +147,7 @@ export const cards = pgTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     title: text("title"),
-    order: integer("order"),
+    order: integer("order").notNull(),
     description: text("description"),
     listId: text("listId")
       .notNull()
@@ -190,8 +190,16 @@ export const settings = pgTable(
   })
 );
 
-export const listsRelation = relations(lists, ({ many }) => ({
+export const boardsRelation = relations(boards, ({ many }) => ({
+  lists: many(lists),
+}));
+
+export const listsRelation = relations(lists, ({ many, one }) => ({
   cards: many(cards),
+  board: one(boards, {
+    fields: [lists.boardId],
+    references: [boards.id],
+  }),
 }));
 
 export const cardsRelation = relations(cards, ({ one }) => ({

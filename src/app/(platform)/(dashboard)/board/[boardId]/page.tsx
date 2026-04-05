@@ -17,7 +17,7 @@ const BoardIdPage = async ({ params }: IBoardIdPageProps) => {
   const { boardId } = await params;
 
   const lists = await db.query.lists.findMany({
-    where: (lists, {eq}) => eq(lists.boardId, boardId),
+    where: (lists, { eq }) => eq(lists.boardId, boardId),
     with: {
       cards: {
         orderBy: (cards: any, { asc }: any) => [asc(cards.order)],
