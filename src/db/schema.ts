@@ -7,8 +7,12 @@ import {
   primaryKey,
   integer,
   index,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
+
+export const actionEnums = pgEnum("action", ["create", "update", "delete"]);
+export const entityTypeEnums = pgEnum("entityType", ["board", "list", "card"]);
 
 export const users = pgTable("user", {
   id: text("id")
@@ -172,6 +176,26 @@ export const images = pgTable("image", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
   deletedAt: timestamp("deletedAt"),
+});
+
+export const auditLog = pgTable("auditLog", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  orgId: text("orgId")
+    .notNull()
+    .references(() => organizations.id, { onDelete: "cascade" }),
+  entityId: text("entityId"),
+  entityType: entityTypeEnums("entityType"),
+  entityTitle: text("entityTitle"),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  action: actionEnums("action"),
+  userImage: text("userImage"),
+  userName: text("userName"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
 export const settings = pgTable(

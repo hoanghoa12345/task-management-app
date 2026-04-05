@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS "board" (
 CREATE TABLE IF NOT EXISTS "card" (
 	"id" text PRIMARY KEY NOT NULL,
 	"title" text,
-	"order" integer,
+	"order" integer NOT NULL,
 	"description" text,
 	"listId" text NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS "card" (
 CREATE TABLE IF NOT EXISTS "list" (
 	"id" text PRIMARY KEY NOT NULL,
 	"title" text,
-	"order" integer,
+	"order" integer NOT NULL,
 	"boardId" text NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL,
 	"updatedAt" timestamp DEFAULT now() NOT NULL

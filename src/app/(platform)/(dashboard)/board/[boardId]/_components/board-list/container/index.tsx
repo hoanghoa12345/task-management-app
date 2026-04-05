@@ -27,7 +27,7 @@ function reorder<T>(list: T[], startIndex: number, endIndex: number) {
 const ListContainer = ({ data }: IListContainerProps) => {
   const { execute: executeListReOrder } = useAction(updateListOrder, {
     onSuccess: () => {
-      toast.success("List reordered.");
+      toast.success("List reordered");
     },
     onError: (error) => {
       toast.error(error);
@@ -35,7 +35,7 @@ const ListContainer = ({ data }: IListContainerProps) => {
   });
   const { execute: executeCardReOrder } = useAction(updateCardOrder, {
     onSuccess: () => {
-      toast.success("Card reordered.");
+      toast.success("Card reordered");
     },
     onError: (error) => {
       toast.error(error);
