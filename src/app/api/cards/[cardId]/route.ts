@@ -8,7 +8,7 @@ import { boards, cards, lists } from "@/db/schema";
 
 export async function GET(
   _req: Request,
-  { params }: { params: { cardId: string } }
+  { params }: { params: Promise<{ cardId: string }> }
 ) {
   try {
     const session = await auth();

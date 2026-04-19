@@ -9,7 +9,7 @@ import { ENTITY_TYPE } from "@/lib/create-audit-log";
 
 export async function GET(
   _req: Request,
-  { params }: { params: { cardId: string } }
+  { params }: { params: Promise<{ cardId: string }> }
 ) {
   const session = await auth();
   const userId = session?.user?.id;
