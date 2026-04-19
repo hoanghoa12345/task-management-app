@@ -10,6 +10,7 @@ import { Card, List } from "@/db/types";
 import { auth } from "@/lib/auth";
 import { boards, cards, lists } from "@/db/schema";
 import { ActionState, createSafeAction } from "@/lib/create-safe-action";
+import { ACTION, createAuditLog, ENTITY_TYPE } from "@/lib/create-audit-log";
 
 const CreateCardSchema = z.object({
   title: z
@@ -82,7 +83,13 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         },
       },
     });
-    // Audit log
+
+    await createAuditLog({
+      action: ACTION.CREATE,
+      entityId: card!.id,
+      entityTitle: card!.title as string,
+      entityType: ENTITY_TYPE.CARD,
+    });
   } catch (error) {
     console.error(`Create Card ${error}`);
     return {

@@ -10,6 +10,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { ACTION, createAuditLog, ENTITY_TYPE } from "@/lib/create-audit-log";
 
 type InputType = z.infer<typeof DeleteBoard>;
 type ReturnType = ActionState<InputType, Board>;
@@ -39,7 +40,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       .set({
         deletedAt: new Date(),
       })
-      .where(and(eq(boards.id, id), eq(boards.organizationId, orgId)));
+      .where(and(eq(boards.id, id), eq(boards.organizationId, orgId)))
+      .returning();
     // if (!isPro) decreaseAvailableCount();
     // await createAuditLog({
     //   action: ACTION.DELETE,
@@ -47,6 +49,12 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     //   entityTitle: board.title,
     //   entityType: ENTITY_TYPE.BOARD,
     // });
+    await createAuditLog({
+      action: ACTION.DELETE,
+      entityId: board[0].id,
+      entityTitle: board[0].title as string,
+      entityType: ENTITY_TYPE.BOARD,
+    });
   } catch (error) {
     return {
       error: "Failed to delete board.",

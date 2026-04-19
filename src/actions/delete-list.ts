@@ -10,6 +10,7 @@ import { List } from "@/db/types";
 import { auth } from "@/lib/auth";
 import { boards, lists } from "@/db/schema";
 import { ActionState, createSafeAction } from "@/lib/create-safe-action";
+import { ACTION, createAuditLog, ENTITY_TYPE } from "@/lib/create-audit-log";
 
 const DeleteListSchema = z.object({
   id: z.string(),
@@ -52,7 +53,12 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       )
       .returning()
       .then((list) => list[0]);
-    // Audit Log
+    await createAuditLog({
+      action: ACTION.DELETE,
+      entityId: list.id,
+      entityTitle: list.title as string,
+      entityType: ENTITY_TYPE.LIST,
+    });
   } catch (error) {
     return {
       error: "Failed to delete list.",

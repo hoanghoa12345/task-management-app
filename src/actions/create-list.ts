@@ -10,6 +10,7 @@ import { List } from "@/db/types";
 import { auth } from "@/lib/auth";
 import { boards, lists } from "@/db/schema";
 import { ActionState, createSafeAction } from "@/lib/create-safe-action";
+import { ACTION, createAuditLog, ENTITY_TYPE } from "@/lib/create-audit-log";
 
 const CreateListSchema = z.object({
   title: z
@@ -64,7 +65,13 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       })
       .returning()
       .then((result) => result[0]);
-    // Audit log
+
+    await createAuditLog({
+      action: ACTION.CREATE,
+      entityId: list.id,
+      entityType: ENTITY_TYPE.LIST,
+      entityTitle: list.title as string,
+    });
   } catch (error) {
     console.log(`Create List ${error}`);
     return {

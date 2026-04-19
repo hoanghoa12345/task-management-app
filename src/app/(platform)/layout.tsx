@@ -1,3 +1,4 @@
+import { ModalProvider } from "@/components/provider/modal-provider";
 import { auth } from "@/lib/auth";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
@@ -8,6 +9,7 @@ const PlatformLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <SessionProvider session={session}>
       <Toaster />
+      <ModalProvider />
       {children}
     </SessionProvider>
   );

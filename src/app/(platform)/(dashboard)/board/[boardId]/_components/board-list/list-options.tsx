@@ -1,5 +1,5 @@
-// import { copyList } from "@/actions/copy-list";
-// import { deleteList } from "@/actions/delete-list";
+import { copyList } from "@/actions/copy-list";
+import { deleteList } from "@/actions/delete-list";
 import { FormSubmit } from "@/components/form/form-submit";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { List } from "@/db/types";
 import { useAction } from "@/hooks/use-action";
 import { MoreHorizontal, X } from "lucide-react";
-import React, { ElementRef, useRef } from "react";
+import { ElementRef, useRef } from "react";
 import { toast } from "sonner";
 
 interface IListOptionsProps {
@@ -21,10 +21,35 @@ interface IListOptionsProps {
 }
 const ListOptions = ({ onAddCard, data }: IListOptionsProps) => {
   const closePopoverRef = useRef<ElementRef<"button">>(null);
+  const { execute: executeCopy } = useAction(copyList, {
+    onSuccess: (list) => {
+      toast.success(`List "${list.title}" copied!`);
+      closePopoverRef.current?.click();
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
+  const { execute: executeDelete } = useAction(deleteList, {
+    onSuccess: (list) => {
+      toast.success(`List "${list.title}" deleted!`);
+      closePopoverRef.current?.click();
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
-  const onListDeleteFormSubmit = () => {};
+  const onListDeleteFormSubmit = () => {
+    const promise = executeDelete({ id: data.id });
+    toast.promise(promise, {
+      loading: "Delete list loading...",
+    });
+  };
 
-  const onListCopyFormSubmit = () => {};
+  const onListCopyFormSubmit = () => {
+    executeCopy({ id: data.id });
+  };
   return (
     <Popover>
       <PopoverTrigger asChild>

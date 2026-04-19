@@ -61,7 +61,7 @@ export const BoardList = async ({
                 Free Workspaces can have up to 5 open boards. For unlimited boards upgrade this workspace.
               `}
             >
-              <HelpCircle className="absolute bottom-2 right-2 h-[14px] w-[14px]" />
+              <HelpCircle className="absolute bottom-2 right-2 h-3.5 w-3.5" />
             </Hint>
           </div>
         </FormPopover>

@@ -1,4 +1,4 @@
-import React, { ElementRef, useRef, useState } from "react";
+import { ElementRef, useRef, useState } from "react";
 import ListHeader from "./list-header";
 import BoardListCardForm from "./card/form";
 import { cn } from "@/lib/utils";

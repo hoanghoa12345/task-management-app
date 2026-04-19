@@ -6,6 +6,18 @@ import { auditLog, actionEnums, entityTypeEnums } from "@/db/schema";
 type ActionEnumType = (typeof actionEnums.enumValues)[number];
 type EntityType = (typeof entityTypeEnums.enumValues)[number];
 
+export const ACTION: Record<string, ActionEnumType> = {
+  CREATE: "create",
+  UPDATE: "update",
+  DELETE: "delete",
+};
+
+export const ENTITY_TYPE: Record<string, EntityType> = {
+  BOARD: "board",
+  LIST: "list",
+  CARD: "card",
+};
+
 interface Props {
   entityId: string;
   entityType: EntityType;
