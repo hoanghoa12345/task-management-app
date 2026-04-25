@@ -29,10 +29,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const user = await getUserByEmail(email);
 
           if (!user) {
-            throw new AuthError("User not found.");
+            throw new Error("User not found");
           }
           if (!user?.password) {
-            throw new AuthError("User not authenticate with credential.");
+            throw new Error("Email or password not correct");
           }
 
           const passwordsMatch = await bcrypt.compare(password, user.password);

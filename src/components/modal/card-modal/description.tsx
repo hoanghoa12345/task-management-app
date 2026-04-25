@@ -17,14 +17,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hooks/use-action";
 import { CardWithList } from ".";
 
+import { useQuery } from "@/hooks/use-query";
+
 interface ICardModalDescriptionProps {
   data: CardWithList;
 }
-const CardModalDescription = ({ data }: ICardModalDescriptionProps) => {
-  const params = useParams();
 
-  const textareaRef = useRef<ElementRef<"textarea">>(null);
+const CardModalDescription = ({ data }: ICardModalDescriptionProps) => {
+  const { refetch: refetchCardData } = useQuery(`/api/cards/${data.id}`);
+  const { refetch: refetchAuditLogsData } = useQuery(`/api/cards/${data.id}/logs`);
+
+  const params = useParams();
   const formRef = useRef<ElementRef<"form">>(null);
+  const textareaRef = useRef<ElementRef<"textarea">>(null);
 
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState(data.description ?? "");
@@ -40,7 +45,8 @@ const CardModalDescription = ({ data }: ICardModalDescriptionProps) => {
 
   const { execute } = useAction(updateCard, {
     onSuccess: (data) => {
-      // Reload card data and audit logs
+      refetchCardData();
+      refetchAuditLogsData();
       toast.success(`Card "${data.title}" updated.`);
       disableEditing();
     },

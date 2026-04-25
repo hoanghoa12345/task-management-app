@@ -11,14 +11,20 @@ import { useAction } from "@/hooks/use-action";
 
 import { CardWithList } from ".";
 
+import { useQuery } from "@/hooks/use-query";
+
 interface ICardModalHeaderProps {
   data: CardWithList;
 }
 const CardModalHeader = ({ data }: ICardModalHeaderProps) => {
+  const { refetch: refetchCardData } = useQuery(`/api/cards/${data.id}`);
+  const { refetch: refetchAuditLogsData } = useQuery(`/api/cards/${data.id}/logs`);
+
   const { execute } = useAction(updateCard, {
     onSuccess: (data) => {
-      // Reload card data and audit logs
-      toast.success(`Card renamed to "${data.title}".`);
+      refetchCardData();
+      refetchAuditLogsData();
+      toast.success(`Card renamed to "${data.title}"`);
     },
     onError: (error) => {
       toast.error(error);
@@ -34,12 +40,11 @@ const CardModalHeader = ({ data }: ICardModalHeaderProps) => {
 
   const onSubmit = (formData: FormData) => {
     const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
 
     if (title === data.title) {
       return;
     }
-    execute({ title, description, id: data.id });
+    execute({ title, id: data.id });
   };
   return (
     <div className="flex items-start gap-x-3 mb-6 w-full">

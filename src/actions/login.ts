@@ -48,7 +48,7 @@ export async function login(
 
         default:
           return {
-            message: "An error occurred",
+            message: e.message,
           };
       }
     }

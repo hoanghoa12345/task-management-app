@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 
 import { db } from "@/db";
 import { List } from "@/db/types";
@@ -48,7 +48,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       .where(
         and(
           eq(lists.id, listId),
-          eq(
+          inArray(
             lists.boardId,
             db
               .select({ id: boards.id })
@@ -67,6 +67,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       entityType: ENTITY_TYPE.LIST,
     });
   } catch (error) {
+    console.error(`Update List ${error}`);
     return {
       error: "Failed to update list.",
     };

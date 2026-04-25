@@ -4,11 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { Check, Loader2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { cn } from "@/lib/utils";
 
 import { FormErrors } from "./form-errors";
+
+import { useQuery } from "@/hooks/use-query";
 
 interface FormPickerProps {
   id: string;
@@ -20,24 +22,9 @@ const defaultImages: Array<Record<string, any>> = [];
 export const FormPicker = ({ id, errors }: FormPickerProps) => {
   const { pending } = useFormStatus();
 
-  const [images, setImages] = useState<Array<Record<string, any>>>(defaultImages);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, isLoading } = useQuery<{ data: { images: Array<Record<string, any>> } }>('/api/images');
+  const images = data?.data?.images || defaultImages;
   const [selectedImageId, setSelectedImageId] = useState(null);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await fetch('/api/images');
-        const data = await response.json();
-        setImages(data.data.images);
-      } catch (error) {
-        throw error;
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchImages();
-  }, []);
 
   if (isLoading) {
     return (

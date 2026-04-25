@@ -1,7 +1,6 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
-import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +20,15 @@ const UserButton = () => {
   if (!user) {
     return null;
   }
+
+  const handleGoToProfile = () => {
+    router.push("/profile");
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem("organizationId");
+    signOut();
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -44,14 +52,14 @@ const UserButton = () => {
           </Avatar>
           <div className="flex flex-col">
             <span className="text-sm">{getUserName(user)}</span>
-            <span className="text-xs text-neutral-500 truncate">{user.email}</span>
+            <span className="text-xs text-neutral-500 truncate">
+              {user.email}
+            </span>
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push("/profile")}>
-          Profile
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleGoToProfile}>Profile</DropdownMenuItem>
+        <DropdownMenuItem onClick={handleSignOut}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
